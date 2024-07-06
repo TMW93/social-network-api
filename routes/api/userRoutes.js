@@ -5,4 +5,4 @@ const {
 
 router.route(`/`).get(getUsers);
 
-module.exports - router;
+module.exports = router;

@@ -1,5 +1,9 @@
 const {Schema, model} = require(`mongoose`);
 
+const formatTime = (date) => {
+  return date.toLocaleString();
+};
+
 const reactionSchema = new Schema (
   {
     reactionId: {
@@ -29,9 +33,5 @@ const reactionSchema = new Schema (
     id: false,
   }
 );
-
-const formatTime = (date) => {
-  return date.toLocaleString();
-};
 
 module.exports = reactionSchema;

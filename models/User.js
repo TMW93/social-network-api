@@ -17,8 +17,18 @@ const userSchema = new Schema(
       },
       message: props => `${props.value} is not a valid email.`
     },
-    thoughts: [Thought],
-    friends: [User],
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: `thought`,
+      },
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: `user`,
+      },
+    ],
   },
   {
     toJSON: {
