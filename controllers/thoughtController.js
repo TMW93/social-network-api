@@ -1,12 +1,49 @@
 const {Thought, User} = require(`../models`);
 
 module.exports = {
+  //get all thoughts
   async getThoughts(req, res) {
     try {
       const thoughts = await Thought.find();
-      res,json(thoughts);          
+      res.json(thoughts);  
+
     } catch (error) {
       res.status(500).json(error);
     }
   },
+  //getting one thought by id
+  async getSingleThought(req, res) {
+    try {
+      const thought = await Thought.findOne({_id: req.params.thoughtId});
+
+      if(!thought) {
+        return res.status(404).json({message: `No thought with that ID.`});
+      }
+
+      res.json(thought);
+
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+  //create a new thought
+  async createThought(req, res) {
+    try {
+      const thought = await Thought.create(req.body);
+      const user = await User.findOneAndUpdate(
+        {username: req.body.username},
+        {$addToSet: {thoughts: thought._id}},
+        {new: true}
+      );
+
+      if(!user) {
+        return res.status(404).json({message: `Please enter a valid username.`});
+      }
+
+      res.json(`Thought created.`);
+
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
 };
