@@ -19,20 +19,19 @@ const reactionSchema = new Schema (
     createdAt: {
       type: Date,
       default: Date.now,
+      get: formatTime,
     },
   },
   {
     toJSON: {
-      virtuals: true,
+      getters: true,
     },
     id: false,
   }
 );
 
-reactionSchema.virtual(`formatTime`).get(function (date) {
+const formatTime = (date) => {
   return date.toLocaleString();
-});
+};
 
-const Reaction = model(`reaction`, reactionSchema);
-
-module.exports = Reaction;
+module.exports = reactionSchema;
