@@ -40,7 +40,7 @@ module.exports = {
         return res.status(404).json({message: `Please enter a valid username.`});
       }
 
-      res.json(`Thought created.`);
+      res.json(`Thought successfully created.`);
 
     } catch (error) {
       res.status(500).json(error);
@@ -55,7 +55,7 @@ module.exports = {
         return res.status(404).json({message: `No thought with this ID.`});
       }
 
-      res.status(200).json(thought);
+      res.status(200).json({message: `Thought successfully updated.`});
 
     } catch (error) {
       res.status(500).json(error);
