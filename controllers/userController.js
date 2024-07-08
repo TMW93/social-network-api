@@ -98,5 +98,30 @@ module.exports = {
     } catch (error) {
       res.status(500).json(error);
     }
+  },
+  //deleting a user from friendlist
+  async deleteFriend(req, res) {
+    try {
+      const user = await User.findOneAndUpdate(
+        {_id: req.params.userId},
+        {$pull: {friends: req.params.friendId}},
+        {new: true}
+      );
+
+      if(!user) {
+        return res.status(404).json({message: `No user with this ID.`});
+      }
+
+      const friend = await User.findOneAndUpdate(
+        {_id: req.params.friendId},
+        {$pull: {friends: req.params.userId}},
+        {new: true}
+      );
+
+      res.status(200).json({message: `User removed from friendlist.`});
+
+    } catch (error) {
+      res.status(500).json(error);
+    }
   }
 };
