@@ -11,7 +11,7 @@ module.exports = {
       res.status(500).json(error);
     }
   },
-  //getting one thought by id
+  //getting a thought by id
   async getSingleThought(req, res) {
     try {
       const thought = await Thought.findOne({_id: req.params.thoughtId});
@@ -42,6 +42,21 @@ module.exports = {
 
       res.json(`Thought created.`);
 
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+  //update a thought by id
+  async updateThought(req, res) {
+    try {
+      const thought = await Thought.findOneAndUpdate({_id: req.params.thoughtId}, {$set: req.body}, {new: true});
+
+      if(!thought) {
+        return res.status(404).json({message: `No thought with this ID.`});
+      }
+
+      res.status(200).json(thought);
+      
     } catch (error) {
       res.status(500).json(error);
     }
