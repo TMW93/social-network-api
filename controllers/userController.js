@@ -11,7 +11,7 @@ module.exports = {
       res.status(500).json(error);
     }
   },
-  //getting a single user
+  //getting a user
   async getSingleUser(req, res) {
     try {
       const user = await User.findOne({_id: req.params.userId})
@@ -37,7 +37,7 @@ module.exports = {
       res.status(500).json(error);
     }
   },
-  //update a single user
+  //update a user
   async updateUser(req, res) {
     try {
       const user = await User.findOneAndUpdate({_id: req.params.userId}, {$set: req.body}, {runValidators: true, new: true});
