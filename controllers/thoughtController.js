@@ -40,7 +40,7 @@ module.exports = {
         return res.status(404).json({message: `Please enter a valid username.`});
       }
 
-      res.json(`Thought successfully created.`);
+      res.status(200).json(`Thought successfully created.`);
 
     } catch (error) {
       res.status(500).json(error);

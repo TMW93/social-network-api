@@ -41,7 +41,11 @@ module.exports = {
   //update a user
   async updateUser(req, res) {
     try {
-      const user = await User.findOneAndUpdate({_id: req.params.userId}, {$set: req.body}, {runValidators: true, new: true});
+      const user = await User.findOneAndUpdate(
+        {_id: req.params.userId}, 
+        {$set: req.body}, 
+        {runValidators: true, new: true}
+      );
       
       if(!user) {
         return res.status(404).json({message: `No user with this ID.`});
@@ -65,6 +69,31 @@ module.exports = {
       await Thought.deleteMany({_id: {$in: user.thoughts}});
 
       res.status(200).json({message: `User and associated thoughts deleted.`})
+
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+  //adding a user as a friend
+  async addFriend(req, res) {
+    try {
+      const user = await User.findOneAndUpdate(
+        {_id: req.params.userId},
+        {$addToSet: {friends: req.params.friendId}},
+        {new: true}
+      );
+
+      if(!user) {
+        return res.status(404).json({message: `User Id or friend Id invalid.`});
+      }
+
+      const friend = await User.findOneAndUpdate(
+        {_id: req.params.friendId},
+        {$addToSet: {friends: req.params.userId}},
+        {new: true}
+      );
+
+      res.status(200).json(`Friend successfully added.`);
 
     } catch (error) {
       res.status(500).json(error);
