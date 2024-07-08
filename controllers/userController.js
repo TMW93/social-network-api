@@ -36,5 +36,20 @@ module.exports = {
     } catch (error) {
       res.status(500).json(error);
     }
+  },
+  //update a single user
+  async updateUser(req, res) {
+    try {
+      const user = await User.findOneAndUpdate({_id: req.params.userId}, {$set: req.body}, {runValidators: true, new: true});
+      
+      if(!user) {
+        return res.status(404).json({message: `No user with this ID.`});
+      }
+
+      res.status(200).json(user);
+
+    } catch (error) {
+      res.status(500).json(error);
+    }  
   }
 };
